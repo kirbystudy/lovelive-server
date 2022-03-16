@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.lovelive</groupId>
     <artifactId>lovelive-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>lovelive-server</name>
     <description>lovelive-server</description>
     <properties>
