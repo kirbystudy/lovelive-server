@@ -18,6 +18,6 @@ public class HelloController {
 
     @GetMapping
     public String index() {
-        return "LoveLive音乐";
+        return "LoveLive音乐网站";
     }
 }
