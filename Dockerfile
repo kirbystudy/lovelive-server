@@ -33,7 +33,7 @@ WORKDIR /app
 COPY --from=build /app/target/lovelive-server-0.0.1.jar .
 
 # 暴露端口
-EXPOSE 80
+EXPOSE 8080
 
 # 执行启动命令
 CMD ["java", "-jar", "/app/lovelive-server-0.0.1.jar"]
