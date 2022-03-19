@@ -15,14 +15,11 @@ spring:
       enabled: true
   jpa:
     generate-ddl: true
+    show-sql: true
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
     properties:
       format_sql: false
-
-
-
 
   flyway:
     enabled: false

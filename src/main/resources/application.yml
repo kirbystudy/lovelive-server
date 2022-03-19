@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: ${APPLICATION_PORT}
 
 spring:
   profiles:
@@ -12,7 +12,7 @@ spring:
   jpa:
     generate-ddl: false
   flyway:
-    enabled: false
+    enabled: true
   config:
     import: optional:file:.env.example[.yml]
 

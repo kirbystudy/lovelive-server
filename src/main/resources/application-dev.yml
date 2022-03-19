@@ -1,19 +1,4 @@
-server:
-  port: 8080
 
-spring:
-  profiles:
-    active: dev
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST}:3306/${DATABASE_NAME}?characterEncoding=UTF8&useSSL=false
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
-  jpa:
-    generate-ddl: false
-  flyway:
-    enabled: false
-  config:
-    import: optional:file:.env.example[.yml]
+
 
 
