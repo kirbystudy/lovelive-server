@@ -17,9 +17,9 @@ RUN mvn -f /app/pom.xml clean package -Dspring.profiles.active=prod
 # 选择运行时基础镜像
 FROM alpine:3.13
 
-ENV MYSQL_HOST 119.29.0.147
-ENV MYSQL_USERNAME root
-ENV MYSQL_PASSWORD kirbystudy
+ENV MYSQL_HOST 10.0.224.7
+ENV MYSQL_USERNAME kirbystudy
+ENV MYSQL_PASSWORD Kirbystudy1997
 ENV DATABASE_NAME lovelive-v2
 ENV APPLICATION_PORT 80
 
