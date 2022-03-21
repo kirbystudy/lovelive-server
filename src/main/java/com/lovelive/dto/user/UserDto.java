@@ -1,6 +1,6 @@
-package com.lovelive.vo;
+package com.lovelive.dto.user;
 
-import com.lovelive.entity.Role;
+import com.lovelive.vo.RoleVo;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,10 +10,10 @@ import java.util.List;
  * @author 小埋
  * @version 1.0
  * @Description TODO
- * @Date 2022/3/18 22:17
+ * @Date 2022/3/19 10:02
  */
 @Data
-public class UserVo {
+public class UserDto {
 
     /**
      * 用户ID

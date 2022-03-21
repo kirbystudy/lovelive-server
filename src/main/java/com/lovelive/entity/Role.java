@@ -7,7 +7,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * @author 太好听了吧
+ * @author 小埋
  * @version 1.0
  * @Description 角色表(Role)实体类
  * @Date 2022-03-18 21:27:40

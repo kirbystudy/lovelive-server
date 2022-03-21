@@ -1,22 +1,20 @@
 package com.lovelive.controller;
 
+import com.lovelive.dto.user.UserCreateDto;
 import com.lovelive.mapper.UserMapper;
 import com.lovelive.repository.UserRepository;
 import com.lovelive.service.UserService;
 import com.lovelive.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author 太好听了吧
+ * @author 小埋
  * @version 1.0
- * @Description TODO
+ * @Description 用户控制层
  * @Date 2022/3/18 21:49
  */
 @RestController
@@ -41,5 +39,10 @@ public class UserController {
     public List<UserVo> list() {
         return userService.list()
                 .stream().map(userMapper::toVo).collect(Collectors.toList());
+    }
+
+    @PostMapping
+    public UserVo create(@RequestBody UserCreateDto userCreateDto) {
+        return userMapper.toVo(userService.create(userCreateDto));
     }
 }
