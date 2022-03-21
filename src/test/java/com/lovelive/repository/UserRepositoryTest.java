@@ -20,25 +20,4 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class UserRepositoryTest {
 
-    @Autowired
-    UserRepository repository;
-
-    @Test
-    void findByUsername() {
-        User user = new User();
-        user.setUsername("小埋");
-        user.setNickname("程序员小埋");
-        user.setEnabled(true);
-        user.setLocked(false);
-        user.setPassword("123456");
-        user.setGender(Gender.FEMALE);
-        user.setLastLoginIp("127.0.0.1");
-        user.setLastLoginTime(new Date());
-        User save = repository.save(user);
-        User byUsername = repository.getByUsername("小埋");
-        System.out.println(byUsername);
-
-    }
-
-
 }
