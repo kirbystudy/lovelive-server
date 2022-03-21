@@ -12,7 +12,7 @@ COPY src /app/src
 COPY pom.xml /app
 
 # 执行代码编译命令
-RUN mvn -f /app/pom.xml clean package
+RUN mvn -f /app/pom.xml clean package -Dspring.profiles.active=prod
 
 # 选择运行时基础镜像
 FROM alpine:3.13
@@ -21,6 +21,7 @@ ENV MYSQL_HOST 10.0.224.7
 ENV MYSQL_USERNAME kirbystudy
 ENV MYSQL_PASSWORD Kirbystudy1997
 ENV DATABASE_NAME lovelive-v2
+ENV APPLICATION_PORT 80
 
 # 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
 RUN apk add --update --no-cache openjdk8-jre-base \
@@ -33,7 +34,7 @@ WORKDIR /app
 COPY --from=build /app/target/lovelive-server-0.0.1.jar .
 
 # 暴露端口
-EXPOSE 8080
+EXPOSE 80
 
 # 执行启动命令
 CMD ["java", "-jar", "/app/lovelive-server-0.0.1.jar", "--spring.profiles.active=test"]
