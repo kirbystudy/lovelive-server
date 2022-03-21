@@ -36,4 +36,4 @@ COPY --from=build /app/target/lovelive-server-0.0.1.jar .
 EXPOSE 8080
 
 # 执行启动命令
-CMD ["java", "-jar", "/app/lovelive-server-0.0.1.jar"]
+CMD ["java", "-jar", "/app/lovelive-server-0.0.1.jar", "--spring.profiles.active=test"]
