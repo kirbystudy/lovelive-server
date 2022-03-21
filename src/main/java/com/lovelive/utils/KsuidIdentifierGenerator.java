@@ -8,7 +8,7 @@ import org.hibernate.id.IdentifierGenerator;
 import java.io.Serializable;
 
 /**
- * @author 太好听了吧
+ * @author 小埋
  * @version 1.0
  * @Description id生成器
  * @Date 2022/3/18 20:28

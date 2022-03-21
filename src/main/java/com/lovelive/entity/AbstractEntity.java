@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 /**
- * @author 太好听了吧
+ * @author 小埋
  * @version 1.0
  * @Description 相关实体类成员公共父类
  * @Date 2022/3/18 20:15
