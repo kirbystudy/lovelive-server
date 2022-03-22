@@ -16,8 +16,18 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 @Component
 public interface UserMapper {
+    /**
+     * toDto 用来接收前端传过来的值
+     * @param user
+     * @return
+     */
     UserDto toDto(User user);
 
+    /**
+     * toVo 用来和前端传输数据
+     * @param userDto
+     * @return
+     */
     UserVo toVo(UserDto userDto);
 
     User createEntity(UserCreateDto userCreateDto);

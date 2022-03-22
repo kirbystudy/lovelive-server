@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * TOKEN前缀
      */
-    public static final String TOKEN_PREFIX = "Bearer_";
+    public static final String TOKEN_PREFIX = "Bearer ";
 
     /**
      * 鉴权头部信息
