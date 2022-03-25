@@ -1,7 +1,8 @@
 package com.lovelive.service.impl;
 
-import com.lovelive.dto.user.UserCreateDto;
+import com.lovelive.dto.user.UserCreateRequest;
 import com.lovelive.dto.user.UserDto;
+import com.lovelive.dto.user.UserUpdateRequest;
 import com.lovelive.entity.User;
 import com.lovelive.enums.ExceptionType;
 import com.lovelive.exception.BizException;
@@ -10,8 +11,11 @@ import com.lovelive.repository.UserRepository;
 import com.lovelive.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * @author 小埋
  * @version 1.0
- * @Description TODO
+ * @Description 用户业务层实现类
  * @Date 2022/3/19 10:30
  */
 @Service
@@ -33,7 +37,6 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
 
-
     @Override
     public List<UserDto> list() {
         return userRepository.findAll().
@@ -41,9 +44,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto create(UserCreateDto userCreateDto) {
-        checkUserName(userCreateDto.getUsername());
-        User user = userMapper.createEntity(userCreateDto);
+    public UserDto create(UserCreateRequest userCreateRequest) {
+        checkUserName(userCreateRequest.getUsername());
+        User user = userMapper.createEntity(userCreateRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userMapper.toDto(userRepository.save(user));
     }
@@ -65,19 +68,56 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 
+    @Override
+    public UserDto get(String id) {
+        // todo: 重构
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        }
+        return userMapper.toDto(user.get());
+    }
+
+    @Override
+    public UserDto update(String id, UserUpdateRequest userUpdateRequest) {
+        // todo: 重构
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        }
+
+        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(),userUpdateRequest)));
+
+    }
+
+    @Override
+    public void delete(String id) {
+        // todo: 重构
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        }
+        userRepository.delete(user.get());
+    }
+
+    @Override
+    public Page<UserDto> search(Pageable pageable) {
+        return userRepository.findAll(pageable).map(userMapper::toDto);
+    }
+
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    private void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Autowired
-    public void setUserMapper(UserMapper userMapper) {
+    private void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
     @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+    private void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 }

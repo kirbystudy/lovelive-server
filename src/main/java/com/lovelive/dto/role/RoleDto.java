@@ -1,4 +1,4 @@
-package com.lovelive.dto;
+package com.lovelive.dto.role;
 
 import lombok.Data;
 
@@ -10,4 +10,9 @@ import lombok.Data;
  */
 @Data
 public class RoleDto {
+    private String id;
+
+    private String name;
+
+    private String title;
 }
