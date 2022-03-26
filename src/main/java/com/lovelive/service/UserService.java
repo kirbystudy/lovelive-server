@@ -1,5 +1,6 @@
 package com.lovelive.service;
 
+import com.lovelive.dto.token.TokenCreateRequest;
 import com.lovelive.dto.user.UserCreateRequest;
 import com.lovelive.dto.user.UserDto;
 import com.lovelive.dto.user.UserUpdateRequest;
@@ -8,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,4 +32,9 @@ public interface UserService extends UserDetailsService {
     void delete(String id);
 
     Page<UserDto> search(Pageable pageable);
+
+    String createToken(TokenCreateRequest token);
+
+    UserDto getCurrentUser();
+
 }

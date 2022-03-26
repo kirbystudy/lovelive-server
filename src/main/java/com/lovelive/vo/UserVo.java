@@ -1,6 +1,6 @@
 package com.lovelive.vo;
 
-import com.lovelive.entity.Role;
+import com.lovelive.enums.Gender;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -32,7 +32,22 @@ public class UserVo {
     private String nickname;
 
     /**
+     * 性别
+     */
+    private Gender gender;
+
+    /**
      * 角色
      */
     private List<RoleVo> roles;
+
+    /**
+     * 是否锁定，1-是，0-否
+     */
+    private Boolean locked;
+
+    /**
+     * 是否可用，1-是，0-否
+     */
+    private Boolean enabled;
 }

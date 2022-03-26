@@ -1,5 +1,9 @@
 package com.lovelive.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.lovelive.config.SecurityConfig;
+import com.lovelive.dto.token.TokenCreateRequest;
 import com.lovelive.dto.user.UserCreateRequest;
 import com.lovelive.dto.user.UserDto;
 import com.lovelive.dto.user.UserUpdateRequest;
@@ -9,14 +13,15 @@ import com.lovelive.exception.BizException;
 import com.lovelive.mapper.UserMapper;
 import com.lovelive.repository.UserRepository;
 import com.lovelive.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,7 +91,7 @@ public class UserServiceImpl implements UserService {
             throw new BizException(ExceptionType.USER_NOT_FOUND);
         }
 
-        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(),userUpdateRequest)));
+        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(), userUpdateRequest)));
 
     }
 
@@ -105,6 +110,30 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable).map(userMapper::toDto);
     }
 
+    @Override
+    public String createToken(TokenCreateRequest tokenCreateRequest) {
+        User user = loadUserByUsername(tokenCreateRequest.getUsername());
+        if (!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())) {
+            throw new BizException(ExceptionType.USER_PASSWORD_NOT_MATCH);
+        }
+        if (!user.isEnabled()) {
+            throw new BizException(ExceptionType.USER_NOT_ENABLED);
+        }
+        if (!user.isAccountNonLocked()) {
+            throw new BizException(ExceptionType.USER_LOCKED);
+        }
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION_TIME))
+                .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
+    }
+
+    @Override
+    public UserDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = loadUserByUsername(authentication.getName());
+        return userMapper.toDto(currentUser);
+    }
 
     @Autowired
     private void setUserRepository(UserRepository userRepository) {

@@ -15,5 +15,7 @@ spring:
     enabled: true
   config:
     import: optional:file:.env.example[.yml]
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 

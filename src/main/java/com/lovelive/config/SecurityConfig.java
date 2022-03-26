@@ -1,14 +1,13 @@
 package com.lovelive.config;
 
 import com.lovelive.exception.RestAuthenticationEntryPoint;
-import com.lovelive.filter.JwtAuthenticationFilter;
 import com.lovelive.filter.JwtAuthorizationFilter;
 import com.lovelive.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,15 +30,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.POST,SIGN_UP_URL).permitAll()
+                .antMatchers(CREATE_TOKEN_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    /**
+     * 添加白名单
+     *
+     * @param web
+     * @throws Exception
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/swagger**/**")
+                .antMatchers("/webjars/**")
+                .antMatchers("/v3/**")
+                .antMatchers("/doc.html");
     }
 
 
@@ -69,9 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String HEADER_STRING = "Authorization";
 
     /**
-     * 鉴权注册用户接口
+     * 鉴权接口过滤
      */
-    public static final String SIGN_UP_URL = "/users";
+    public static final String CREATE_TOKEN_URL = "/tokens";
+    public static final String USER_CREATE = "/users";
 
     @Autowired
     public void setUserService(UserService userService) {
