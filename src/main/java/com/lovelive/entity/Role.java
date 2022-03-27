@@ -3,8 +3,6 @@ package com.lovelive.entity;
 import lombok.Data;
 
 import javax.persistence.Entity;
-import java.util.Date;
-import java.io.Serializable;
 
 /**
  * @author 小埋
@@ -20,6 +18,7 @@ public class Role extends AbstractEntity {
      * 角色名称
      */
     private String name;
+
     /**
      * 角色标识
      */

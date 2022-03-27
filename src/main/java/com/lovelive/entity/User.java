@@ -2,12 +2,12 @@ package com.lovelive.entity;
 
 import com.lovelive.enums.Gender;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -67,10 +67,10 @@ public class User extends AbstractEntity implements UserDetails {
     /**
      * 角色
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
     /**
@@ -80,14 +80,20 @@ public class User extends AbstractEntity implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        System.out.println("注册该账户权限");
+        for (Role role : roles) {
+            System.out.println(role);
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
     }
 
     /**
      * 指示用户的帐户是否已过期。过期的账户不能认证。
      *
      * @return <code>true</code> 如果用户的账号有效（即未过期），
-     *         <code>false</code> 如果不再有效（即过期）
+     * <code>false</code> 如果不再有效（即过期）
      */
     @Override
     public boolean isAccountNonExpired() {
@@ -108,7 +114,7 @@ public class User extends AbstractEntity implements UserDetails {
      * 指示用户的凭据（密码）是否已过期。已到期凭据阻止身份验证。
      *
      * @return <code>true</code> 如果用户的凭据有效（即未过期），
-     *         <code>false</code> 如果不再有效（即过期）
+     * <code>false</code> 如果不再有效（即过期）
      */
     @Override
     public boolean isCredentialsNonExpired() {
