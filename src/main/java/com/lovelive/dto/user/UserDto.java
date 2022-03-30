@@ -2,12 +2,9 @@ package com.lovelive.dto.user;
 
 import com.lovelive.dto.role.RoleDto;
 import com.lovelive.enums.Gender;
-import com.lovelive.vo.RoleVo;
 import lombok.Data;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.Date;
 import java.util.List;
 

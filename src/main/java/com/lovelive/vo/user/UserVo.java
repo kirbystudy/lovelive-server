@@ -1,6 +1,7 @@
-package com.lovelive.vo;
+package com.lovelive.vo.user;
 
 import com.lovelive.enums.Gender;
+import com.lovelive.vo.role.RoleVo;
 import lombok.Data;
 
 import javax.persistence.Column;

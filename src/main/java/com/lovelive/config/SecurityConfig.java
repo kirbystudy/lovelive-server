@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 忽略拦截的静态文件路径
+     * 忽略拦截的静态文件路径(白名单机制)
      *
      * @param web
      * @throws Exception
@@ -66,7 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/swagger**/**")
                 .antMatchers("/webjars/**")
                 .antMatchers("/v3/**")
-                .antMatchers("/doc.html");
+                .antMatchers("/doc.html")
+                .antMatchers("/weixin/**");
     }
 
     /**
@@ -103,7 +104,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 鉴权接口过滤
      */
     public static final String CREATE_TOKEN_URL = "/tokens";
-    public static final String USER_CREATE = "/users";
 
     @Autowired
     public void setUserService(UserService userService) {

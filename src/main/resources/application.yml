@@ -19,5 +19,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+weixin:
+  mp:
+    app-id: wx0e357e20bc180583
+    app-secret: 6c8dbcaaad29f5cc4a689225b7c0233f
 
 

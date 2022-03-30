@@ -1,4 +1,4 @@
-package com.lovelive.vo;
+package com.lovelive.vo.role;
 
 import lombok.Data;
 

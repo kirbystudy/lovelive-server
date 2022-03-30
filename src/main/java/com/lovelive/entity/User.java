@@ -31,6 +31,7 @@ public class User extends AbstractEntity implements UserDetails {
     /**
      * 用户昵称
      */
+    @Column(unique = true)
     private String nickname;
 
     /**
@@ -81,9 +82,7 @@ public class User extends AbstractEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        System.out.println("注册该账户权限");
         for (Role role : roles) {
-            System.out.println(role);
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;

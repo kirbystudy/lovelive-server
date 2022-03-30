@@ -4,7 +4,7 @@ import com.lovelive.dto.user.UserCreateRequest;
 import com.lovelive.dto.user.UserUpdateRequest;
 import com.lovelive.mapper.UserMapper;
 import com.lovelive.service.UserService;
-import com.lovelive.vo.UserVo;
+import com.lovelive.vo.user.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +25,13 @@ import javax.annotation.security.RolesAllowed;
  */
 @RestController
 @RequestMapping("/users")
-@Api(tags = "用户")
+@Api(tags = "用户模块")
 public class UserController {
 
-    UserService userService;
+    private UserService userService;
 
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
-
-    /**
-     * 用户检索
-     *
-     * @param pageable
-     * @return
-     */
     @ApiOperation("用户检索")
     @GetMapping
     @RolesAllowed("ROLE_ADMIN")
@@ -47,12 +40,6 @@ public class UserController {
 
     }
 
-    /**
-     * 注册用户
-     *
-     * @param userCreateRequest
-     * @return
-     */
     @ApiOperation("注册用户")
     @PostMapping
     @RolesAllowed("ROLE_ADMIN")
@@ -60,25 +47,13 @@ public class UserController {
         return userMapper.toVo(userService.create(userCreateRequest));
     }
 
-    /**
-     * 根据id查询用户
-     *
-     * @param id
-     * @return
-     */
     @ApiOperation("根据id查询用户")
     @GetMapping("/{id}")
     public UserVo get(@PathVariable String id) {
         return userMapper.toVo(userService.get(id));
     }
 
-    /**
-     * 根据id修改用户
-     *
-     * @param id
-     * @param userUpdateRequest
-     * @return
-     */
+
     @ApiOperation("根据id修改用户")
     @PutMapping("/{id}")
     @RolesAllowed("ROLE_ADMIN")
@@ -87,11 +62,6 @@ public class UserController {
         return userMapper.toVo(userService.update(id, userUpdateRequest));
     }
 
-    /**
-     * 根据id删除用户
-     *
-     * @param id
-     */
     @ApiOperation("根据id删除用户")
     @DeleteMapping("/{id}")
     @RolesAllowed("ROLE_ADMIN")
@@ -99,11 +69,6 @@ public class UserController {
         userService.delete(id);
     }
 
-    /**
-     * 当前登录状态的用户信息
-     *
-     * @return
-     */
     @ApiOperation("当前登录状态的用户信息")
     @GetMapping("/myLoginState")
     public UserVo myLoginState() {

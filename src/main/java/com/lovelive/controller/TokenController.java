@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/tokens")
-@Api(tags = "token")
+@Api(tags = "token模块")
 public class TokenController {
 
-    UserService userService;
+    private UserService userService;
 
     @ApiOperation("创建token")
     @PostMapping
