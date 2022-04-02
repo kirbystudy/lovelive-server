@@ -1,6 +1,7 @@
 package com.lovelive.vo.user;
 
 import com.lovelive.enums.Gender;
+import com.lovelive.vo.BaseVo;
 import com.lovelive.vo.role.RoleVo;
 import lombok.Data;
 
@@ -14,12 +15,7 @@ import java.util.List;
  * @Date 2022/3/18 22:17
  */
 @Data
-public class UserVo {
-
-    /**
-     * 用户ID
-     */
-    private String id;
+public class UserVo extends BaseVo {
 
     /**
      * 用户名

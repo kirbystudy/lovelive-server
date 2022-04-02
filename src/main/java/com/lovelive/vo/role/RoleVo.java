@@ -1,5 +1,6 @@
 package com.lovelive.vo.role;
 
+import com.lovelive.vo.BaseVo;
 import lombok.Data;
 
 /**
@@ -9,12 +10,7 @@ import lombok.Data;
  * @Date 2022/3/18 22:20
  */
 @Data
-public class RoleVo {
-
-    /**
-     * 用户ID
-     */
-    private String id;
+public class RoleVo extends BaseVo {
 
     /**
      * 角色名称

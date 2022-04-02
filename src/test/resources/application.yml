@@ -26,8 +26,16 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  config:
+    import: optional:file:.env[.yml]
 
 weixin:
   mp:
-    app-id: wx0e357e20bc180583
-    app-secret: 6c8dbcaaad29f5cc4a689225b7c0233f
+    app-id: ${MP_APP_ID}
+    app-secret: ${MP_APP_SECRET}
+
+cos:
+  bucket: ${COS_BUCKET}
+  secret-id: ${COS_SECRET_ID}
+  secret-key: ${COS_SECRET_KEY}
+  region: ${COS_REGION}
