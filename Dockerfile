@@ -17,6 +17,14 @@ RUN mvn -f /app/pom.xml clean package -Dspring.profiles.active=prod
 # 选择运行时基础镜像
 FROM alpine:3.13
 
+ENV MP_APP_ID: 微信appId
+ENV MP_APP_SECRET: 微信app密钥
+
+ENV COS_BUCKET: 存储桶名称
+ENV COS_SECRET_ID: 密钥id
+ENV COS_SECRET_KEY: 密钥key
+ENV COS_REGION: 所属地域
+
 # 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
 RUN apk add --update --no-cache openjdk8-jre-base \
     && rm -f /var/cache/apk/*
