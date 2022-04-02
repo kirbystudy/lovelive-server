@@ -1,9 +1,3 @@
-spring:
-  config:
-    import: optional:file:.env[.yml]
-  jpa:
-    show-sql: true
-
 weixin:
   mp:
     app-id: ${MP_APP_ID}

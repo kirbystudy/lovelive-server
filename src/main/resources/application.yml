@@ -13,21 +13,6 @@ spring:
     generate-ddl: false
   flyway:
     enabled: true
-  config:
-    import: optional:file:.env.example[.yml]
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
-weixin:
-  mp:
-    app-id: ${MP_APP_ID}
-    app-secret: ${MP_APP_SECRET}
-
-cos:
-  bucket: ${COS_BUCKET}
-  secret-id: ${COS_SECRET_ID}
-  secret-key: ${COS_SECRET_KEY}
-  region: ${COS_REGION}
-
-
