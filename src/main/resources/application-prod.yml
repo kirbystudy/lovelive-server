@@ -1,3 +1,7 @@
+spring:
+  config:
+    import: optional:file:.env[.yml]
+
 weixin:
   mp:
     app-id: ${MP_APP_ID}
