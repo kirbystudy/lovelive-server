@@ -25,7 +25,7 @@ public class FileDto {
 
     private String ext;
 
-    private Integer size;
+    private Long size;
 
     @Enumerated(EnumType.STRING)
     private FileType type;

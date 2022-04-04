@@ -52,14 +52,15 @@ public class CosStorageServiceImpl implements StorageService {
     public FileUploadDto initFileUpload() {
 
         try {
+
             Response response = CosStsClient.getCredential(getCosStsConfig());
 
             FileUploadDto fileUploadDto = new FileUploadDto();
-            fileUploadDto.setBucket(bucket);
-            fileUploadDto.setRegion(region);
             fileUploadDto.setSecretId(response.credentials.tmpSecretId);
             fileUploadDto.setSecretKey(response.credentials.tmpSecretKey);
             fileUploadDto.setSessionToken(response.credentials.sessionToken);
+            fileUploadDto.setStartTime(response.startTime);
+            fileUploadDto.setExpiredTime(response.expiredTime);
             return fileUploadDto;
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,8 +73,7 @@ public class CosStorageServiceImpl implements StorageService {
      */
     private TreeMap<String, Object> getCosStsConfig() {
         TreeMap<String, Object> config = new TreeMap<String, Object>();
-
-
+        
         // 云 api 密钥 SecretId
         config.put("secretId", secretId);
         // 云 api 密钥 SecretKey

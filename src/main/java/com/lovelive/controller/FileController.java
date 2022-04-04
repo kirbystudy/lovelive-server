@@ -6,6 +6,8 @@ import com.lovelive.mapper.FileUploadMapper;
 import com.lovelive.service.FileService;
 import com.lovelive.vo.file.FileUploadVo;
 import com.lovelive.vo.file.FileVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import javax.annotation.security.RolesAllowed;
 @RolesAllowed("ROLE_ADMIN")
 @RestController
 @RequestMapping("/files")
+@Api(tags = "文件模块")
 public class FileController {
 
     private FileService fileService;
@@ -29,17 +32,14 @@ public class FileController {
 
     private FileUploadMapper fileUploadMapper;
 
-    /**
-     * todo: 初始化上传
-     */
+
+    @ApiOperation("初始化上传")
     @PostMapping("/upload_init")
     public FileUploadVo initUpload(@Validated @RequestBody FileUploadRequest fileUploadRequest) {
         return fileUploadMapper.toVo(fileService.initUpload(fileUploadRequest));
     }
 
-    /**
-     * todo: 完成上传
-     */
+    @ApiOperation("完成上传")
     @PostMapping("/{id}/upload_finish")
     public FileVo finishUpload(@PathVariable String id) {
         return fileMapper.toVo(fileService.finishUpload(id));
@@ -55,6 +55,7 @@ public class FileController {
         this.fileMapper = fileMapper;
     }
 
+    @Autowired
     public void setFileUploadMapper(FileUploadMapper fileUploadMapper) {
         this.fileUploadMapper = fileUploadMapper;
     }

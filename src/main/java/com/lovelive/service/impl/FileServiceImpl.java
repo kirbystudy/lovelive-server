@@ -12,6 +12,7 @@ import com.lovelive.mapper.FileMapper;
 import com.lovelive.repository.FileRepository;
 import com.lovelive.service.FileService;
 import com.lovelive.service.StorageService;
+import com.lovelive.utils.FileTypeTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,14 +40,19 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public FileUploadDto initUpload(FileUploadRequest fileUploadRequest) {
         // 创建File实体
-        FileEntity file = repository.save(mapper.createEntity(fileUploadRequest));
+        FileEntity file = mapper.createEntity(fileUploadRequest);
+        file.setType(FileTypeTransformer.getFileTypeFromExt(fileUploadRequest.getExt()));
+        file.setStorage(getDefaultStorage());
+        FileEntity saveFile = repository.save(file);
+
         // 通过接口获取STS令牌
         FileUploadDto fileUploadDto =
                 storageServices.get(getDefaultStorage().name()).initFileUpload();
-        fileUploadDto.setKey(file.getKey());
-        fileUploadDto.setFileId(file.getId());
+        fileUploadDto.setKey(saveFile.getKey());
+        fileUploadDto.setFileId(saveFile.getId());
         return fileUploadDto;
     }
+
 
     @Override
     public FileDto finishUpload(String id) {
@@ -67,7 +73,8 @@ public class FileServiceImpl implements FileService {
     /**
      * todo: 后台设置当前Storage存储对象
      */
-    private Storage getDefaultStorage() {
+    @Override
+    public Storage getDefaultStorage() {
         return Storage.COS;
     }
 

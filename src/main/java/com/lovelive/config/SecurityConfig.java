@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(CREATE_TOKEN_URL).permitAll()
+                .antMatchers(SITE_CONFIG_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))
@@ -101,9 +102,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String HEADER_STRING = "Authorization";
 
     /**
-     * 鉴权接口过滤
+     * 白名单接口
      */
     public static final String CREATE_TOKEN_URL = "/tokens";
+    public static final String SITE_CONFIG_URL = "/site/config";
 
     @Autowired
     public void setUserService(UserService userService) {

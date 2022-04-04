@@ -4,7 +4,6 @@ import com.lovelive.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -14,7 +13,6 @@ import java.util.Optional;
  * @Description TODO
  * @Date 2022/3/18 20:39
  */
-@Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
     User getByUsername(String username);

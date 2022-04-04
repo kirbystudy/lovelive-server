@@ -32,7 +32,7 @@ public class FileVo extends BaseVo {
     /**
      * 文件大小：单位byte
      */
-    private Integer size;
+    private Long size;
 
     /**
      * 文件类型：AUDIO-音频, IMAGE-图片, VIDEO-视频, OTHER-其他

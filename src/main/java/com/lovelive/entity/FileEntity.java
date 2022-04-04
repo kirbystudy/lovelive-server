@@ -5,9 +5,7 @@ import com.lovelive.enums.FileType;
 import com.lovelive.enums.Storage;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 /**
  * @author 小埋
@@ -16,6 +14,7 @@ import javax.persistence.Enumerated;
  * @Date 2022/4/1 17:48
  */
 @Entity
+@Table(name = "file")
 @Data
 public class FileEntity extends AbstractEntity {
 
@@ -27,6 +26,7 @@ public class FileEntity extends AbstractEntity {
     /**
      * 文件hash值,即ObjectKey
      */
+    @Column(name = "file_key")
     private String key;
 
     /**

@@ -2,7 +2,6 @@ package com.lovelive.repository;
 
 import com.lovelive.entity.Music;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import java.util.Optional;
  * @Description TODO
  * @Date 2022/3/30 13:43
  */
-@Repository
 public interface MusicRepository extends JpaRepository<Music, String> {
     Optional<Music> findById(String id);
 }

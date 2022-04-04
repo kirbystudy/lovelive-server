@@ -1,5 +1,6 @@
 package com.lovelive.dto.music;
 
+import com.lovelive.dto.file.FileDto;
 import com.lovelive.enums.MusicStatus;
 import lombok.Data;
 
@@ -33,6 +34,11 @@ public class MusicDto {
      * 歌曲简介
      */
     private String description;
+
+    /**
+     * 文件id
+     */
+    private FileDto file;
 
     /**
      * 创建时间

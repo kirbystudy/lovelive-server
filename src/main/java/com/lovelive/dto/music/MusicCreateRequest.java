@@ -1,5 +1,6 @@
 package com.lovelive.dto.music;
 
+import com.lovelive.dto.file.FileDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -23,4 +24,9 @@ public class MusicCreateRequest {
      * 歌曲简介
      */
     private String description;
+
+    /**
+     * 文件id
+     */
+    private FileDto file;
 }

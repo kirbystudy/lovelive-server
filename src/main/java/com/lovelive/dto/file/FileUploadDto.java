@@ -35,14 +35,14 @@ public class FileUploadDto {
      * 文件标识
      */
     private String fileId;
+    
+    /**
+     * 创建时间(时间戳)
+     */
+    private Long startTime;
 
     /**
-     * 存储桶名称：bucketName-appid, 如 example-125000000
+     * 过期时间(时间戳)
      */
-    private String bucket;
-
-    /**
-     * 存储桶所属地域，如 ap-guangzhou
-     */
-    private String region;
+    private Long expiredTime;
 }

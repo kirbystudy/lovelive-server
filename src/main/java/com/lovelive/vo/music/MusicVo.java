@@ -2,6 +2,7 @@ package com.lovelive.vo.music;
 
 import com.lovelive.enums.MusicStatus;
 import com.lovelive.vo.BaseVo;
+import com.lovelive.vo.file.FileVo;
 import lombok.Data;
 
 /**
@@ -27,5 +28,10 @@ public class MusicVo extends BaseVo {
      * 歌曲简介
      */
     private String description;
+
+    /**
+     * 文件id
+     */
+    private FileVo file;
 
 }

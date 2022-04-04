@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 
 /**
  * @author 小埋
@@ -32,4 +33,10 @@ public class Music extends AbstractEntity {
      * 歌曲简介
      */
     private String description;
+
+    /**
+     * 一对一关系 关联文件表
+     */
+    @OneToOne
+    private FileEntity file;
 }

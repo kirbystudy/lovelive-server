@@ -13,18 +13,18 @@ import java.util.Date;
  */
 @Data
 public abstract class BaseVo {
-    
+
     private String id;
 
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddhhmmss")
     private Date createdTime;
 
     /**
      * 更新时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddhhmmss")
     private Date updatedTime;
 }
