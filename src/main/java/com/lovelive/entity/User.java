@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Entity
 @Data
-public class User extends AbstractEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
     /**
      * 用户名

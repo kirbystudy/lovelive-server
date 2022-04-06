@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(CREATE_TOKEN_URL).permitAll()
                 .antMatchers(SITE_CONFIG_URL).permitAll()
+                .antMatchers(PLAY_LIST_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))
@@ -106,6 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     public static final String CREATE_TOKEN_URL = "/tokens";
     public static final String SITE_CONFIG_URL = "/site/config";
+    public static final String PLAY_LIST_URL = "/playlists/**";
 
     @Autowired
     public void setUserService(UserService userService) {

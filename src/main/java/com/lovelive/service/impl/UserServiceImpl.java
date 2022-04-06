@@ -16,8 +16,6 @@ import com.lovelive.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +31,9 @@ import java.util.stream.Collectors;
  * @Date 2022/3/19 10:30
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
-    UserRepository userRepository;
+    UserRepository repository;
 
     UserMapper userMapper;
 
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> list() {
-        return userRepository.findAll().
+        return repository.findAll().
                 stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
@@ -53,11 +51,11 @@ public class UserServiceImpl implements UserService {
         checkUserName(userCreateRequest.getUsername());
         User user = userMapper.createEntity(userCreateRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userMapper.toDto(userRepository.save(user));
+        return userMapper.toDto(repository.save(user));
     }
 
     private void checkUserName(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = repository.findByUsername(username);
         // 如果user != null
         if (user.isPresent()) {
             throw new BizException(ExceptionType.USER_NAME_REPEAT);
@@ -66,48 +64,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return user.get();
+        return super.loadUserByUsername(username);
     }
 
     @Override
     public UserDto get(String id) {
-        // todo: 重构
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return userMapper.toDto(user.get());
+        return userMapper.toDto(getById(id));
     }
 
     @Override
     public UserDto update(String id, UserUpdateRequest userUpdateRequest) {
-        // todo: 重构
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-
-        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(), userUpdateRequest)));
+        return userMapper.toDto(repository.save(userMapper.updateEntity(getById(id), userUpdateRequest)));
 
     }
 
     @Override
     public void delete(String id) {
-        // todo: 重构
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        userRepository.delete(user.get());
+        repository.delete(getById(id));
     }
 
     @Override
     public Page<UserDto> search(Pageable pageable) {
-        return userRepository.findAll(pageable).map(userMapper::toDto);
+        return repository.findAll(pageable).map(userMapper::toDto);
     }
 
     @Override
@@ -128,16 +106,22 @@ public class UserServiceImpl implements UserService {
                 .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
     }
 
+    private User getById(String id) {
+        Optional<User> user = repository.findById(id);
+        if (!user.isPresent()) {
+            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        }
+        return user.get();
+    }
+
     @Override
     public UserDto getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = loadUserByUsername(authentication.getName());
-        return userMapper.toDto(currentUser);
+        return userMapper.toDto(super.getCurrentUserEntity());
     }
 
     @Autowired
-    private void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private void setRepository(UserRepository repository) {
+        this.repository = repository;
     }
 
     @Autowired

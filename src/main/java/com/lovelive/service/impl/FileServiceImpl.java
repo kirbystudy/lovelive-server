@@ -27,7 +27,7 @@ import java.util.Optional;
  * @Date 2022/4/1 18:11
  */
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl extends BaseService implements FileService {
 
     private Map<String, StorageService> storageServices;
 
@@ -43,6 +43,8 @@ public class FileServiceImpl implements FileService {
         FileEntity file = mapper.createEntity(fileUploadRequest);
         file.setType(FileTypeTransformer.getFileTypeFromExt(fileUploadRequest.getExt()));
         file.setStorage(getDefaultStorage());
+        file.setCreatedBy(getCurrentUserEntity());
+        file.setUpdatedBy(getCurrentUserEntity());
         FileEntity saveFile = repository.save(file);
 
         // 通过接口获取STS令牌
@@ -61,7 +63,15 @@ public class FileServiceImpl implements FileService {
         if (!fileEntityOptional.isPresent()) {
             throw new BizException(ExceptionType.FILE_NOT_FOUND);
         }
-        // Todo: 只有上传者才能更新finish,权限判断
+
+        // Todo: 是否是SUPER_MAN 角色
+
+
+        FileEntity file = fileEntityOptional.get();
+        // 权限判断
+        if (file.getCreatedBy() != getCurrentUserEntity()) {
+            throw new BizException(ExceptionType.FILE_NOT_PERMISSION);
+        }
 
         // Todo: 验证远程文件是否存在
 

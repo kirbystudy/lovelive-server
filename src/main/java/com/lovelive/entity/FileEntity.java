@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "file")
 @Data
-public class FileEntity extends AbstractEntity {
+public class FileEntity extends TraceableBaseEntity {
 
     /**
      * 文件名

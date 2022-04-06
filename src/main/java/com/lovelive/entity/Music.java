@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Data
-public class Music extends AbstractEntity {
+public class Music extends BaseEntity {
 
     /**
      * 歌曲名
