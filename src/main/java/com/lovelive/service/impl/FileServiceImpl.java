@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -69,7 +70,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 
         FileEntity file = fileEntityOptional.get();
         // 权限判断
-        if (file.getCreatedBy() != getCurrentUserEntity()) {
+        if (!Objects.equals(file.getCreatedBy().getId(), getCurrentUserEntity().getId())) {
             throw new BizException(ExceptionType.FILE_NOT_PERMISSION);
         }
 
@@ -86,6 +87,15 @@ public class FileServiceImpl extends BaseService implements FileService {
     @Override
     public Storage getDefaultStorage() {
         return Storage.COS;
+    }
+
+    @Override
+    public FileEntity getFileEntity(String id) {
+        Optional<FileEntity> fileEntityOptional = repository.findById(id);
+        if (!fileEntityOptional.isPresent()) {
+            throw new BizException(ExceptionType.FILE_NOT_FOUND);
+        }
+        return fileEntityOptional.get();
     }
 
     @Autowired

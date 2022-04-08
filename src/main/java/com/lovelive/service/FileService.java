@@ -3,6 +3,7 @@ package com.lovelive.service;
 import com.lovelive.dto.file.FileDto;
 import com.lovelive.dto.file.FileUploadDto;
 import com.lovelive.dto.file.FileUploadRequest;
+import com.lovelive.entity.FileEntity;
 import com.lovelive.enums.Storage;
 
 /**
@@ -18,4 +19,6 @@ public interface FileService {
     FileDto finishUpload(String id);
 
     Storage getDefaultStorage();
+
+    FileEntity getFileEntity(String id);
 }

@@ -11,4 +11,6 @@ import com.lovelive.dto.file.FileUploadDto;
 public interface StorageService {
 
     FileUploadDto initFileUpload();
+
+    String getFileUri(String fileKey);
 }

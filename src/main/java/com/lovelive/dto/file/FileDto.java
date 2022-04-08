@@ -2,10 +2,9 @@ package com.lovelive.dto.file;
 
 import com.lovelive.enums.FileStatus;
 import com.lovelive.enums.FileType;
+import com.lovelive.enums.Storage;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.Date;
 
 /**
@@ -23,23 +22,19 @@ public class FileDto {
 
     private String key;
 
+    private String uri;
+
     private String ext;
 
     private Long size;
 
-    @Enumerated(EnumType.STRING)
     private FileType type;
 
-    @Enumerated(EnumType.STRING)
+    private Storage storage;
+
     private FileStatus status;
 
-    /**
-     * 创建时间
-     */
     private Date createdTime;
 
-    /**
-     * 更新时间
-     */
     private Date updatedTime;
 }

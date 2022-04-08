@@ -14,7 +14,7 @@ import org.mapstruct.MappingTarget;
  * @Description TODO
  * @Date 2022/3/30 13:23
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = FileMapper.class)
 public interface MusicMapper {
 
     /**

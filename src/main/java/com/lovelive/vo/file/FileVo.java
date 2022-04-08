@@ -2,6 +2,7 @@ package com.lovelive.vo.file;
 
 import com.lovelive.enums.FileStatus;
 import com.lovelive.enums.FileType;
+import com.lovelive.enums.Storage;
 import com.lovelive.vo.BaseVo;
 import lombok.Data;
 
@@ -23,6 +24,16 @@ public class FileVo extends BaseVo {
      * 文件hash值
      */
     private String key;
+
+    /**
+     * 文件url
+     */
+    private String uri;
+
+    /**
+     * 存储对象
+     */
+    private Storage storage;
 
     /**
      * 文件后缀名

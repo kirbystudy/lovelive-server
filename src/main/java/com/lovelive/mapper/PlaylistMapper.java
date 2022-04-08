@@ -11,7 +11,7 @@ import org.mapstruct.Mapper;
  * @Description TODO
  * @Date 2022/4/4 18:09
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = MusicMapper.class)
 public interface PlaylistMapper {
 
     PlaylistDto toDto(Playlist playlist);

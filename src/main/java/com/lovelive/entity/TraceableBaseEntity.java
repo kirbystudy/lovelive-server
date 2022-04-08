@@ -17,10 +17,16 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class TraceableBaseEntity extends BaseEntity {
 
+    /**
+     * 创建者用户ID
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_user_id")
     protected User createdBy;
 
+    /**
+     * 更新者用户ID
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_user_id")
     protected User updatedBy;

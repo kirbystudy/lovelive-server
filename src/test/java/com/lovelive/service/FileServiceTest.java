@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 
 /**
  * @author 小埋
@@ -19,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest
 @Slf4j
-class FileServiceTest {
+class FileServiceTest extends BaseTest {
 
     private FileService fileService;
 
@@ -54,6 +55,7 @@ class FileServiceTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     void finishUpload() {
         FileUploadRequest fileUploadRequest = new FileUploadRequest();
         fileUploadRequest.setName("测试文件名");
@@ -62,6 +64,7 @@ class FileServiceTest {
         fileUploadRequest.setSize(30000L);
         FileUploadDto fileUploadDto = fileService.initUpload(fileUploadRequest);
         FileDto finishedFile = fileService.finishUpload(fileUploadDto.getFileId());
+        log.info(finishedFile.toString());
         Assertions.assertEquals(fileUploadDto.getFileId(), finishedFile.getId());
         Assertions.assertEquals(FileStatus.UPLOADED, finishedFile.getStatus());
     }
