@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author 小埋
@@ -34,21 +33,22 @@ public class MusicController {
     @PostMapping
     @RolesAllowed("ROLE_ADMIN")
     public MusicVo create(@Validated @RequestBody MusicCreateRequest musicCreateRequest) {
-        return musicMapper.toVo(musicService.create(musicCreateRequest));
+        return musicMapper.toVo(musicService.create(musicMapper.toDto(musicCreateRequest)));
     }
 
     @ApiOperation("更新歌曲")
     @PutMapping("/{id}")
     @RolesAllowed("ROLE_ADMIN")
     public MusicVo update(@PathVariable String id, @Validated @RequestBody MusicUpdateRequest musicUpdateRequest) {
-        return musicMapper.toVo(musicService.update(id, musicUpdateRequest));
+        return musicMapper.toVo(musicService.update(id, musicMapper.toDto(musicUpdateRequest)));
     }
 
     @ApiOperation("查询所有歌曲")
     @GetMapping
     @RolesAllowed("ROLE_ADMIN")
     public List<MusicVo> list() {
-        return musicService.list().stream().map(musicMapper::toVo).collect(Collectors.toList());
+//        return musicService.list().stream().map(musicMapper::toVo).collect(Collectors.toList());
+        return null;
     }
 
     @ApiOperation("上架歌曲")

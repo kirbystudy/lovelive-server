@@ -1,10 +1,7 @@
 package com.lovelive.service;
 
-import com.lovelive.dto.music.MusicCreateRequest;
 import com.lovelive.dto.music.MusicDto;
-import com.lovelive.dto.music.MusicUpdateRequest;
-
-import java.util.List;
+import com.lovelive.entity.Music;
 
 /**
  * @author 小埋
@@ -12,13 +9,7 @@ import java.util.List;
  * @Description 音乐业务层接口
  * @Date 2022/3/30 13:23
  */
-public interface MusicService {
-
-    MusicDto create(MusicCreateRequest musicCreateRequest);
-
-    MusicDto update(String id, MusicUpdateRequest musicUpdateRequest);
-
-    List<MusicDto> list();
+public interface MusicService extends GeneralService<Music, MusicDto> {
 
     void publish(String id);
 

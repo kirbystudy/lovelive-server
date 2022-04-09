@@ -6,7 +6,6 @@ import com.lovelive.dto.music.MusicUpdateRequest;
 import com.lovelive.entity.Music;
 import com.lovelive.vo.music.MusicVo;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 
 /**
  * @author 小埋
@@ -15,37 +14,11 @@ import org.mapstruct.MappingTarget;
  * @Date 2022/3/30 13:23
  */
 @Mapper(componentModel = "spring", uses = FileMapper.class)
-public interface MusicMapper {
+public interface MusicMapper extends MapperInterface<Music, MusicDto> {
 
-    /**
-     * toDto 用来接收前端传过来的值
-     *
-     * @param music
-     * @return
-     */
-    MusicDto toDto(Music music);
+    MusicDto toDto(MusicCreateRequest musicCreateRequest);
 
-    /**
-     * toVo 用来和前端传输数据
-     *
-     * @param musicDto
-     * @return
-     */
+    MusicDto toDto(MusicUpdateRequest musicUpdateRequest);
+
     MusicVo toVo(MusicDto musicDto);
-
-    /**
-     * 创建实体
-     *
-     * @param musicCreateRequest
-     * @return
-     */
-    Music createEntity(MusicCreateRequest musicCreateRequest);
-
-    /**
-     * 更新实体
-     *
-     * @param musicUpdateRequest
-     * @return
-     */
-    Music updateEntity(@MappingTarget Music music, MusicUpdateRequest musicUpdateRequest);
 }
