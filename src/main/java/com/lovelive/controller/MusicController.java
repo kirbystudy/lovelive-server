@@ -51,7 +51,6 @@ public class MusicController {
         return musicService.search(musicSearchFilter).map(musicMapper::toVo);
     }
 
-
     @ApiOperation("上架歌曲")
     @PostMapping("/{id}/publish")
     @RolesAllowed("ROLE_ADMIN")

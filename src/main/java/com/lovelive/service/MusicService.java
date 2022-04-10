@@ -18,4 +18,5 @@ public interface MusicService extends GeneralService<Music, MusicDto> {
     void publish(String id);
 
     void close(String id);
+
 }

@@ -58,4 +58,5 @@ public abstract class AbstractSpecification<T> implements Specification<T> {
         }
         return builder.and(predicates.toArray(new Predicate[0]));
     }
+
 }

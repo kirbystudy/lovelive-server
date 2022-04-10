@@ -9,4 +9,5 @@ import com.lovelive.entity.Music;
  * @Date 2022/4/9 18:17
  */
 public class MusicSpecification extends AbstractSpecification<Music> {
+
 }

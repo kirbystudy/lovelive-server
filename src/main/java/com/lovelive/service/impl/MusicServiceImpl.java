@@ -42,6 +42,7 @@ public class MusicServiceImpl extends GeneralServiceImpl<Music, MusicDto> implem
         if (musicSearchFilter == null) {
             musicSearchFilter = new MusicSearchFilter();
         }
+
         MusicSpecification specs = new MusicSpecification();
         specs.add(new SearchCriteria("name", musicSearchFilter.getName(), SearchOperation.MATCH));
         Sort sort = Sort.by(Sort.Direction.DESC, "createdTime");
