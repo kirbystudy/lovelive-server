@@ -1,15 +1,21 @@
 package com.lovelive.service.impl;
 
 import com.lovelive.dto.music.MusicDto;
+import com.lovelive.dto.music.MusicSearchFilter;
 import com.lovelive.entity.Music;
 import com.lovelive.enums.ExceptionType;
 import com.lovelive.enums.MusicStatus;
 import com.lovelive.mapper.MusicMapper;
 import com.lovelive.repository.MusicRepository;
+import com.lovelive.repository.specs.MusicSpecification;
+import com.lovelive.repository.specs.SearchCriteria;
+import com.lovelive.repository.specs.SearchOperation;
 import com.lovelive.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +35,18 @@ public class MusicServiceImpl extends GeneralServiceImpl<Music, MusicDto> implem
     @Override
     public MusicDto create(MusicDto musicDto) {
         return super.create(musicDto);
+    }
+
+    @Override
+    public Page<MusicDto> search(MusicSearchFilter musicSearchFilter) {
+        if (musicSearchFilter == null) {
+            musicSearchFilter = new MusicSearchFilter();
+        }
+        MusicSpecification specs = new MusicSpecification();
+        specs.add(new SearchCriteria("name", musicSearchFilter.getName(), SearchOperation.MATCH));
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdTime");
+        Pageable pageable = PageRequest.of(musicSearchFilter.getPage() - 1, musicSearchFilter.getSize(), sort);
+        return repository.findAll(specs, pageable).map(mapper::toDto);
     }
 
     @Override
@@ -58,11 +76,6 @@ public class MusicServiceImpl extends GeneralServiceImpl<Music, MusicDto> implem
     @Override
     public ExceptionType getNotFoundExceptionType() {
         return ExceptionType.MUSIC_NOT_FOUND;
-    }
-
-    @Override
-    public Page<MusicDto> search(MusicDto searchDto, Pageable pageable) {
-        return null;
     }
 
     @Autowired

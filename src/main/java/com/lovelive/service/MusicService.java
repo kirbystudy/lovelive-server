@@ -1,7 +1,9 @@
 package com.lovelive.service;
 
 import com.lovelive.dto.music.MusicDto;
+import com.lovelive.dto.music.MusicSearchFilter;
 import com.lovelive.entity.Music;
+import org.springframework.data.domain.Page;
 
 /**
  * @author 小埋
@@ -10,6 +12,8 @@ import com.lovelive.entity.Music;
  * @Date 2022/3/30 13:23
  */
 public interface MusicService extends GeneralService<Music, MusicDto> {
+
+    Page<MusicDto> search(MusicSearchFilter musicSearchFilter);
 
     void publish(String id);
 

@@ -4,8 +4,6 @@ import com.lovelive.dto.BaseDto;
 import com.lovelive.entity.BaseEntity;
 import com.lovelive.enums.ExceptionType;
 import com.lovelive.mapper.MapperInterface;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -30,5 +28,4 @@ public interface GeneralService<Entity extends BaseEntity, Dto extends BaseDto> 
 
     void delete(String id);
 
-    Page<Dto> search(Dto searchDto, Pageable pageable);
 }

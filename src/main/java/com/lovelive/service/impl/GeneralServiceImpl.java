@@ -4,8 +4,6 @@ import com.lovelive.dto.BaseDto;
 import com.lovelive.entity.BaseEntity;
 import com.lovelive.exception.BizException;
 import com.lovelive.service.GeneralService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -53,8 +51,4 @@ public abstract class GeneralServiceImpl<Entity extends BaseEntity, Dto extends 
         getRepository().delete(existedEntity);
     }
 
-    @Override
-    public Page<Dto> search(Dto searchDto, Pageable pageable) {
-        return null;
-    }
 }

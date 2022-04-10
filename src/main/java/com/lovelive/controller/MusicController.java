@@ -1,6 +1,7 @@
 package com.lovelive.controller;
 
 import com.lovelive.dto.music.MusicCreateRequest;
+import com.lovelive.dto.music.MusicSearchFilter;
 import com.lovelive.dto.music.MusicUpdateRequest;
 import com.lovelive.mapper.MusicMapper;
 import com.lovelive.service.MusicService;
@@ -8,11 +9,11 @@ import com.lovelive.vo.music.MusicVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.List;
 
 /**
  * @author 小埋
@@ -43,13 +44,13 @@ public class MusicController {
         return musicMapper.toVo(musicService.update(id, musicMapper.toDto(musicUpdateRequest)));
     }
 
-    @ApiOperation("查询所有歌曲")
-    @GetMapping
+    @ApiOperation("查询所有歌曲(检索和分页)")
+    @PostMapping("/search")
     @RolesAllowed("ROLE_ADMIN")
-    public List<MusicVo> list() {
-//        return musicService.list().stream().map(musicMapper::toVo).collect(Collectors.toList());
-        return null;
+    public Page<MusicVo> search(@RequestBody(required = false) MusicSearchFilter musicSearchFilter) {
+        return musicService.search(musicSearchFilter).map(musicMapper::toVo);
     }
+
 
     @ApiOperation("上架歌曲")
     @PostMapping("/{id}/publish")
