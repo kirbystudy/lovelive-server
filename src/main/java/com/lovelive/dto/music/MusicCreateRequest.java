@@ -1,9 +1,11 @@
 package com.lovelive.dto.music;
 
-import com.lovelive.dto.file.FileDto;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author 小埋
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotBlank;
  * @Date 2022/3/30 13:13
  */
 @Data
+@ToString(callSuper = true)
 public class MusicCreateRequest {
 
     /**
@@ -28,5 +31,8 @@ public class MusicCreateRequest {
     /**
      * 文件id
      */
-    private FileDto file;
+    private String fileId;
+
+    @NotNull(message = "歌手未选择")
+    private List<String> artistIds;
 }

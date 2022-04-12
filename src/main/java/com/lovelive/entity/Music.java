@@ -3,10 +3,8 @@ package com.lovelive.entity;
 import com.lovelive.enums.MusicStatus;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author 小埋
@@ -28,6 +26,12 @@ public class Music extends BaseEntity {
      */
     @Enumerated(EnumType.STRING)
     private MusicStatus status;
+
+    @ManyToMany
+    @JoinTable(name = "artist_music",
+            joinColumns = @JoinColumn(name = "music_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id", referencedColumnName = "id"))
+    private List<Artist> artists;
 
     /**
      * 歌曲简介

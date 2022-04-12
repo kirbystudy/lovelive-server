@@ -3,6 +3,8 @@ package com.lovelive.dto.music;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * @author 小埋
@@ -23,4 +25,12 @@ public class MusicUpdateRequest {
      * 歌曲简介
      */
     private String description;
+
+    /**
+     * 文件id
+     */
+    private String fileId;
+
+    @NotEmpty(message = "歌手未选择")
+    private List<String> artistIds;
 }

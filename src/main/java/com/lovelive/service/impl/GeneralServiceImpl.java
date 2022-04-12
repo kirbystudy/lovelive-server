@@ -4,7 +4,6 @@ import com.lovelive.dto.BaseDto;
 import com.lovelive.entity.BaseEntity;
 import com.lovelive.exception.BizException;
 import com.lovelive.service.GeneralService;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,12 +13,19 @@ import java.util.Optional;
  * @Description 抽象公共方法实现父类
  * @Date 2022/4/9 10:38
  */
-public abstract class GeneralServiceImpl<Entity extends BaseEntity, Dto extends BaseDto> implements GeneralService<Entity, Dto> {
-
+public abstract class GeneralServiceImpl<Entity extends BaseEntity, Dto extends BaseDto> extends BaseService implements GeneralService<Entity, Dto> {
 
     @Override
     public Dto create(Dto dto) {
-        return getMapper().toDto(getRepository().save(getMapper().toEntity(dto)));
+        Entity entity = getMapper().toEntity(dto);
+        return getMapper().toDto(getRepository().save(entity));
+    }
+
+    @Override
+    public Dto update(String id, Dto dto) {
+        Entity existedEntity = getEntity(id);
+        Entity updatedEntity = getRepository().save(getMapper().updateEntity(existedEntity, dto));
+        return getMapper().toDto(updatedEntity);
     }
 
     @Override
@@ -35,15 +41,6 @@ public abstract class GeneralServiceImpl<Entity extends BaseEntity, Dto extends 
         return optionalEntity.get();
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Dto update(String id, Dto dto) {
-        // Todo: dto 可能无法控制更新字段
-        Entity existedEntity = getEntity(id);
-        Entity updateEntity = getRepository().save(getMapper().updateEntity(existedEntity, dto));
-        return getMapper().toDto(updateEntity);
-
-    }
 
     @Override
     public void delete(String id) {

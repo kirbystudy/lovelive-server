@@ -2,8 +2,11 @@ package com.lovelive.vo.music;
 
 import com.lovelive.enums.MusicStatus;
 import com.lovelive.vo.BaseVo;
+import com.lovelive.vo.artist.ArtistVo;
 import com.lovelive.vo.file.FileVo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author 小埋
@@ -33,5 +36,7 @@ public class MusicVo extends BaseVo {
      * 文件id
      */
     private FileVo file;
+
+    private List<ArtistVo> artistsList;
 
 }

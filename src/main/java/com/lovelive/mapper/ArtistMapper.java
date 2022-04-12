@@ -6,7 +6,7 @@ import com.lovelive.dto.artist.ArtistUpdateRequest;
 import com.lovelive.entity.Artist;
 import com.lovelive.vo.artist.ArtistVo;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.Mapping;
 
 /**
  * @author 小埋
@@ -15,13 +15,12 @@ import org.mapstruct.MappingTarget;
  * @Date 2022/4/8 13:17
  */
 @Mapper(componentModel = "spring", uses = {FileMapper.class, MusicMapper.class})
-public interface ArtistMapper {
+public interface ArtistMapper extends MapperInterface<Artist, ArtistDto> {
 
-    Artist createEntity(ArtistCreateRequest artistCreateRequest);
+    @Mapping(source = "photoId", target = "photo.id")
+    ArtistDto toDto(ArtistCreateRequest artistCreateRequest);
 
-    Artist updateEntity(@MappingTarget Artist artist, ArtistUpdateRequest artistUpdateRequest);
-
-    ArtistDto toDto(Artist artist);
+    ArtistDto toDto(ArtistUpdateRequest artistUpdateRequest);
 
     ArtistVo toVo(ArtistDto artistDto);
 }

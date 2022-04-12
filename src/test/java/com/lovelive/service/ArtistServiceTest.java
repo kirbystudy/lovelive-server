@@ -5,8 +5,10 @@ import com.lovelive.dto.artist.ArtistDto;
 import com.lovelive.dto.file.FileDto;
 import com.lovelive.dto.file.FileUploadDto;
 import com.lovelive.dto.file.FileUploadRequest;
+import com.lovelive.mapper.ArtistMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,9 @@ class ArtistServiceTest extends BaseTest {
     @Autowired
     FileService fileService;
 
+    @Autowired
+    ArtistMapper artistMapper;
+
     private String photoId;
 
     @Test
@@ -36,11 +41,13 @@ class ArtistServiceTest extends BaseTest {
         ArtistCreateRequest artistCreateRequest = new ArtistCreateRequest();
         artistCreateRequest.setName("陈奕迅");
         artistCreateRequest.setRemark("孤勇者");
-        ArtistDto artistDto = artistService.create(artistCreateRequest);
+        ArtistDto artistDto = artistService.create(artistMapper.toDto(artistCreateRequest));
         Assertions.assertEquals(artistCreateRequest.getName(), artistDto.getName());
+        Assertions.assertEquals(artistCreateRequest.getRemark(), artistDto.getRemark());
         log.info(artistDto.toString());
     }
 
+    @BeforeEach
     void setDefaultPhoto() {
         FileUploadRequest fileUploadRequest = new FileUploadRequest();
         fileUploadRequest.setName("测试文件名");
@@ -50,6 +57,5 @@ class ArtistServiceTest extends BaseTest {
         FileUploadDto fileUploadDto = fileService.initUpload(fileUploadRequest);
         FileDto finishedFile = fileService.finishUpload(fileUploadDto.getFileId());
         photoId = finishedFile.getId();
-
     }
 }

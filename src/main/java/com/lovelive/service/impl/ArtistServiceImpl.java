@@ -1,23 +1,23 @@
 package com.lovelive.service.impl;
 
-import com.lovelive.dto.artist.ArtistCreateRequest;
 import com.lovelive.dto.artist.ArtistDto;
-import com.lovelive.dto.artist.ArtistUpdateRequest;
+import com.lovelive.dto.artist.ArtistSearchFilter;
 import com.lovelive.entity.Artist;
-import com.lovelive.enums.ArtistStatus;
 import com.lovelive.enums.ExceptionType;
-import com.lovelive.exception.BizException;
 import com.lovelive.mapper.ArtistMapper;
+import com.lovelive.mapper.MapperInterface;
 import com.lovelive.repository.ArtistRepository;
+import com.lovelive.repository.specs.ArtistSpecification;
+import com.lovelive.repository.specs.SearchCriteria;
+import com.lovelive.repository.specs.SearchOperation;
 import com.lovelive.service.ArtistService;
-import com.lovelive.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -28,43 +28,45 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class ArtistServiceImpl extends BaseService implements ArtistService {
+public class ArtistServiceImpl extends TraceableGeneralServiceImpl<Artist, ArtistDto> implements ArtistService {
 
     private ArtistMapper mapper;
 
     private ArtistRepository repository;
-
-    private FileService fileService;
-
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ArtistDto create(ArtistCreateRequest artistCreateRequest) {
-        Artist artist = mapper.createEntity(artistCreateRequest);
-        artist.setPhoto(fileService.getFileEntity(artistCreateRequest.getPhotoId()));
-        artist.setStatus(ArtistStatus.DRAFT);
-        artist.setCreatedBy(getCurrentUserEntity());
-        artist.setUpdatedBy(getCurrentUserEntity());
-        return mapper.toDto(repository.save(artist));
-    }
-
-    @Override
-    public ArtistDto update(String id, ArtistUpdateRequest artistUpdateRequest) {
-        Optional<Artist> artistOptional = repository.findById(id);
-        if (!artistOptional.isPresent()) {
-            throw new BizException(ExceptionType.ARTIST_NOT_FOUND);
-        }
-        Artist artist = mapper.updateEntity(artistOptional.get(), artistUpdateRequest);
-        artist.setPhoto(fileService.getFileEntity(artistUpdateRequest.getPhotoId()));
-        return mapper.toDto(repository.save(artist));
-    }
 
     @Override
     public List<ArtistDto> list() {
         return repository.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
+    @Override
+    public Page<ArtistDto> search(ArtistSearchFilter artistSearchFilter) {
+        ArtistSpecification specs = new ArtistSpecification();
+        specs.add(new SearchCriteria("name", artistSearchFilter.getName(), SearchOperation.MATCH));
+        if (artistSearchFilter.getRecommended() != null) {
+            specs.add(new SearchCriteria("recommended", artistSearchFilter.getRecommended(), SearchOperation.EQUAL));
+        }
+        return repository.findAll(specs, artistSearchFilter.toPageable()).map(mapper::toDto);
+    }
+
+    @Override
+    public ArtistDto recommend(String id, Integer recommendFactor) {
+        Artist artist = getEntity(id);
+        artist.setRecommended(true);
+        artist.setRecommendFactor(recommendFactor);
+        return mapper.toDto(repository.save(artist));
+    }
+
+    @Override
+    public ArtistDto cancelRecommendation(String id) {
+        Artist artist = getEntity(id);
+        artist.setRecommended(false);
+        artist.setRecommendFactor(0);
+        return mapper.toDto(repository.save(artist));
+    }
+
     @Autowired
+
     public void setMapper(ArtistMapper mapper) {
         this.mapper = mapper;
     }
@@ -74,9 +76,19 @@ public class ArtistServiceImpl extends BaseService implements ArtistService {
         this.repository = repository;
     }
 
-    @Autowired
-    public void setFileService(FileService fileService) {
-        this.fileService = fileService;
+
+    @Override
+    public JpaRepository<Artist, String> getRepository() {
+        return repository;
     }
 
+    @Override
+    public MapperInterface<Artist, ArtistDto> getMapper() {
+        return mapper;
+    }
+
+    @Override
+    public ExceptionType getNotFoundExceptionType() {
+        return ExceptionType.ARTIST_NOT_FOUND;
+    }
 }

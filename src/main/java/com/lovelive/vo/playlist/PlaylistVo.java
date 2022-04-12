@@ -4,7 +4,6 @@ import com.lovelive.enums.PlaylistStatus;
 import com.lovelive.vo.BaseVo;
 import com.lovelive.vo.file.FileVo;
 import com.lovelive.vo.music.MusicVo;
-import com.lovelive.vo.user.UserVo;
 import lombok.Data;
 
 import java.util.List;
@@ -26,8 +25,12 @@ public class PlaylistVo extends BaseVo {
 
     private PlaylistStatus status;
 
-    private UserVo creator;
-
     private List<MusicVo> musicList;
+
+    private Boolean recommended;
+
+    private Integer recommendFactor;
+
+    private Boolean special;
 
 }

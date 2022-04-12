@@ -1,10 +1,13 @@
 package com.lovelive.dto.music;
 
 import com.lovelive.dto.BaseDto;
+import com.lovelive.dto.artist.ArtistDto;
 import com.lovelive.dto.file.FileDto;
 import com.lovelive.enums.MusicStatus;
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.List;
 
 /**
  * @author 小埋
@@ -36,4 +39,5 @@ public class MusicDto extends BaseDto {
      */
     private FileDto file;
 
+    private List<ArtistDto> artistList;
 }

@@ -22,14 +22,14 @@ public class TraceableBaseEntity extends BaseEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_user_id")
-    protected User createdBy;
+    private User createdBy;
 
     /**
      * 更新者用户ID
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_user_id")
-    protected User updatedBy;
+    private User updatedBy;
 
 
 }

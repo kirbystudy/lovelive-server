@@ -41,8 +41,16 @@ public class Artist extends TraceableBaseEntity {
     /**
      * 歌手上架状态(DRAFT-草稿，PUBLISHED-已上架，BLOCKED-已封禁)
      */
-    private ArtistStatus status;
+    private ArtistStatus status = ArtistStatus.DRAFT;
 
+    /**
+     * 是否推荐：推荐：1, 不推荐：0, 默认：0
+     */
+    private Boolean recommended = false;
 
+    /**
+     * 推荐因数：越高越在上面
+     */
+    private Integer recommendFactor = 0;
 }
 

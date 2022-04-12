@@ -1,12 +1,11 @@
 package com.lovelive.dto.playlist;
 
+import com.lovelive.dto.TraceableBaseDto;
 import com.lovelive.dto.music.MusicDto;
 import com.lovelive.entity.FileEntity;
-import com.lovelive.entity.User;
 import com.lovelive.enums.PlaylistStatus;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  * @Date 2022/4/4 18:02
  */
 @Data
-public class PlaylistDto {
+public class PlaylistDto extends TraceableBaseDto {
 
     private String id;
 
@@ -28,11 +27,12 @@ public class PlaylistDto {
 
     private PlaylistStatus status;
 
-    private User creator;
-
     private List<MusicDto> musicList;
 
-    private Date createdTime;
+    private Boolean recommended;
 
-    private Date updatedTime;
+    private Integer recommendFactor;
+
+    private Boolean special;
+
 }
